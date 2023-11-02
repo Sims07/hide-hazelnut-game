@@ -1,5 +1,6 @@
 package com.ippon.kata.hide.hazelnut.application.domain;
 
+import static com.ippon.kata.hide.hazelnut.application.domain.Pieces.GREY_SQUIRREL;
 import static com.ippon.kata.hide.hazelnut.application.domain.Pieces.ORANGE_SQUIRREL;
 import static org.assertj.core.api.BDDAssertions.then;
 
@@ -23,14 +24,16 @@ class BoardLevelTest {
   }
 
   @Test
-  void givenMoveHazelnutUnderHole_move_shouldUpdateBoardWithAHoleWithHazelnul() {
+  void givenMoveHazelnutUnderHole_move_shouldUpdateBoardWithAHoleWithHazelnult() {
     final BoardLevel boardLevel = givenLevelOne();
     Board board = boardLevel.start();
 
     board = board.move(ORANGE_SQUIRREL.piece(), Orientation.LEFT);
+    board = board.move(GREY_SQUIRREL.piece(), Orientation.UP);
+    board = board.move(GREY_SQUIRREL.piece(), Orientation.UP);
 
-    then(board.slot(new Position(0, 1)).hasHole()).isTrue();
     then(board.slot(new Position(0, 1)).hazelnutInTheHole()).isTrue();
+    then(board.slot(new Position(2, 0)).hazelnutInTheHole()).isTrue();
   }
 
   private static BoardLevel givenLevelOne() {
