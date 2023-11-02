@@ -35,4 +35,29 @@ public record Squirrel(Color color, List<PieceParcel> pieceParcels, boolean hasH
       case NONE -> List.of();
     };
   }
+
+  public Squirrel move(Orientation orientation) {
+    return new Squirrel(
+        color,
+        pieceParcels.stream()
+            .map(
+                parcel ->
+                    new PieceParcel(
+                        parcel.position().translate(translatePosition(orientation)), parcel.type()))
+            .toList(),
+        hasHazelnut);
+  }
+
+  private static Position translatePosition(Orientation orientation) {
+
+    return switch (orientation) {
+      case LEFT -> new Position(-1, 0);
+      case UP -> new Position(0, -1);
+      case NONE -> new Position(0, 0);
+    };
+  }
+
+  public Squirrel releaseHazelnut() {
+    return new Squirrel(color, pieceParcels, false);
+  }
 }

@@ -4,8 +4,6 @@ import static com.ippon.kata.hide.hazelnut.application.domain.Pieces.ORANGE_SQUI
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.List;
-import java.util.Optional;
-import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.Test;
 
 class BoardLevelTest {
@@ -29,9 +27,10 @@ class BoardLevelTest {
     final BoardLevel boardLevel = givenLevelOne();
     Board board = boardLevel.start();
 
-    final Optional<Piece> piece = board.piece(ORANGE_SQUIRREL.piece());
+    board = board.move(ORANGE_SQUIRREL.piece(), Orientation.LEFT);
 
-    BDDAssertions.then(piece).isPresent();
+    then(board.slot(new Position(0, 1)).hasHole()).isTrue();
+    then(board.slot(new Position(0, 1)).hazelnutInTheHole()).isTrue();
   }
 
   private static BoardLevel givenLevelOne() {

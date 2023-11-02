@@ -15,7 +15,7 @@ public record Board(Map<Position, Slot> slotPositions) {
     for (int x = 0; x < BOARD_SIZE; x++) {
       for (int y = 0; y < BOARD_SIZE; y++) {
         final Position position = new Position(x, y);
-        values.put(position, new Slot(Optional.empty(), position));
+        values.put(position, new Slot(Optional.empty(), position, false));
       }
     }
     return new Board(values);
@@ -34,16 +34,17 @@ public record Board(Map<Position, Slot> slotPositions) {
   }
 
   private Board addPiece(Piece piece, Position initPosition) {
-    final Piece piecePosition = piece.moveAt(initPosition);
+    final Piece updatedPiece = piece.moveAt(initPosition);
     Map<Position, Slot> updatedSlotPositions = new HashMap<>(this.slotPositions);
-    if (availableSlots(piecePosition)) {
-      piecePosition
+    if (availableSlots(updatedPiece)) {
+      updatedPiece
           .pieceParcels()
           .forEach(
               parcel -> {
                 LOGGER.info("Use position {}", parcel.position());
                 updatedSlotPositions.put(
-                    parcel.position(), new Slot(Optional.of(piece), parcel.position()));
+                    parcel.position(),
+                    new Slot(Optional.of(updatedPiece), parcel.position(), false));
               });
     } else {
       throw new IllegalArgumentException("Squirrel is already at this slot");
@@ -68,7 +69,65 @@ public record Board(Map<Position, Slot> slotPositions) {
         .map(Slot::piece)
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .filter(piece1 -> piece1.equals(piece))
+        .filter(piece1 -> piece1.color().equals(piece.color()))
         .findAny();
+  }
+
+  public Board move(Piece piece, Orientation orientation) {
+    Board updatedBoard = this;
+    final Optional<Piece> squirrelPieceOpt = piece(piece);
+    if (squirrelPieceOpt.isPresent()) {
+      final Piece squirrelPiece = squirrelPieceOpt.get();
+      if (squirrelPiece instanceof Squirrel squirrel) {
+        updatedBoard = cleanPieceSlots(squirrel);
+        Squirrel movedSquirrel = squirrel.move(orientation);
+        if (updatedBoard.availableSlots(movedSquirrel)) {
+          updatedBoard = updatedBoard.addPieceAtPosition(movedSquirrel);
+        }
+      }
+    }
+    return updatedBoard;
+  }
+
+  private Board cleanPieceSlots(Squirrel squirrel) {
+    Map<Position, Slot> updatedSlotPositions = new HashMap<>(this.slotPositions);
+    squirrel
+        .pieceParcels()
+        .forEach(
+            parcel -> {
+              LOGGER.info("Free position {}", parcel.position());
+              updatedSlotPositions.put(
+                  parcel.position(),
+                  new Slot(
+                      Optional.empty(),
+                      parcel.position(),
+                      updatedSlotPositions.get(parcel.position()).hazelnutInTheHole()));
+            });
+    return new Board(updatedSlotPositions);
+  }
+
+  private Board addPieceAtPosition(Squirrel squirrel) {
+    Map<Position, Slot> updatedSlotPositions = new HashMap<>(this.slotPositions);
+    squirrel
+        .pieceParcels()
+        .forEach(
+            parcel -> {
+              Squirrel updatedSquirrel = squirrel;
+              boolean hazelNutInTheHole =
+                  updatedSlotPositions.get(parcel.position()).hazelnutInTheHole();
+              LOGGER.info("Use position {}", parcel.position());
+              if (parcel.type() == ParcelType.HAZELNUT_SLOT
+                  && squirrel.hasHazelnut()
+                  && !hazelNutInTheHole) {
+                LOGGER.info(
+                    "Squirrel {} put his hazelnut in {}", squirrel.color(), parcel.position());
+                updatedSquirrel = squirrel.releaseHazelnut();
+                hazelNutInTheHole = true;
+              }
+              updatedSlotPositions.put(
+                  parcel.position(),
+                  new Slot(Optional.of(updatedSquirrel), parcel.position(), hazelNutInTheHole));
+            });
+    return new Board(updatedSlotPositions);
   }
 }
