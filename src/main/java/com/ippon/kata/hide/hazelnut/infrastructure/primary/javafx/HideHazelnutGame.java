@@ -36,9 +36,10 @@ public class HideHazelnutGame extends Application {
   private MediaPlayer mediaPlayer;
   private final Canvas canvas;
   public static final URL TETRIS_MP3 =
-      HideHazelnutGame.class.getResource("/sounds/tetris-theme.mp3");
+      HideHazelnutGame.class.getResource("/sounds/hide-hazelnut-theme.mp3");
   private Color currentSquirrelColor;
   private BoardRenderer boardRenderer;
+  private WinGameRenderer winGameRenderer;
   private Board board;
 
   public HideHazelnutGame() {
@@ -50,6 +51,7 @@ public class HideHazelnutGame extends Application {
     applicationContext = new SpringApplicationBuilder(JavaFxHideHazelnutApplication.class).run();
     gameAPI = applicationContext.getBean(GameAPI.class);
     boardRenderer = new BoardRenderer();
+    winGameRenderer = new WinGameRenderer();
   }
 
   @Override
@@ -99,6 +101,7 @@ public class HideHazelnutGame extends Application {
             case UP -> gameAPI.move(board, currentSquirrelColor, Orientation.UP);
             case DOWN -> gameAPI.move(board, currentSquirrelColor, Orientation.DOWN);
             case RIGHT -> gameAPI.move(board, currentSquirrelColor, Orientation.RIGHT);
+            case N -> startLevelOne();
           }
         });
     GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -115,6 +118,9 @@ public class HideHazelnutGame extends Application {
   private void renderBoard(GraphicsContext graphicsContext, BoardChangedEventDTO event) {
     this.board = event.board();
     boardRenderer.render(graphicsContext, event.board());
+    if (this.board.allSquirrelHasReleasedTheirHazelnuts()) {
+      winGameRenderer.render(graphicsContext, event);
+    }
   }
 
   @Override
