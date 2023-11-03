@@ -3,6 +3,7 @@ package com.ippon.kata.hide.hazelnut.application.domain;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,10 @@ public record Board(Map<Position, Slot> slotPositions) {
                 LOGGER.info("Use position {}", parcel.position());
                 updatedSlotPositions.put(
                     parcel.position(),
-                    new Slot(Optional.of(updatedPiece), parcel.position(), false));
+                    new Slot(
+                        Optional.of(updatedPiece),
+                        parcel.position(),
+                        updatedSlotPositions.get(parcel.position()).hazelnutInTheHole()));
               });
     } else {
       throw new IllegalArgumentException("Squirrel is already at this slot");
@@ -83,6 +87,8 @@ public record Board(Map<Position, Slot> slotPositions) {
         Squirrel movedSquirrel = squirrel.move(orientation);
         if (updatedBoard.availableSlots(movedSquirrel)) {
           updatedBoard = updatedBoard.addPieceAtPosition(movedSquirrel);
+        } else {
+          updatedBoard = this;
         }
       }
     }
@@ -108,26 +114,92 @@ public record Board(Map<Position, Slot> slotPositions) {
 
   private Board addPieceAtPosition(Squirrel squirrel) {
     Map<Position, Slot> updatedSlotPositions = new HashMap<>(this.slotPositions);
+    if (isHazelnutReleasable(squirrel, updatedSlotPositions).isPresent()) {
+      updatedSlotPositions = releaseHazelnut(squirrel, updatedSlotPositions);
+    } else {
+      updatedSlotPositions = moveSquirrel(squirrel, updatedSlotPositions);
+    }
+    return new Board(updatedSlotPositions);
+  }
+
+  private static Optional<PieceParcel> isHazelnutReleasable(
+      Squirrel squirrel, Map<Position, Slot> updatedSlotPositions) {
+    return squirrel.pieceParcels().stream()
+        .filter(
+            parcel -> {
+              LOGGER.info(
+                  "Use position {}, hazelNutInTheHole {}",
+                  parcel.position(),
+                  updatedSlotPositions.get(parcel.position()));
+              return canReleaseHazelnut(
+                  squirrel, parcel, updatedSlotPositions.get(parcel.position()));
+            })
+        .findAny();
+  }
+
+  private static Map<Position, Slot> moveSquirrel(
+      Squirrel squirrel, Map<Position, Slot> updatedSlotPositions) {
+    Map<Position, Slot> updatedSlotPositionsWithSquirrel = new HashMap<>(updatedSlotPositions);
     squirrel
         .pieceParcels()
         .forEach(
             parcel -> {
-              Squirrel updatedSquirrel = squirrel;
-              boolean hazelNutInTheHole =
-                  updatedSlotPositions.get(parcel.position()).hazelnutInTheHole();
-              LOGGER.info("Use position {}", parcel.position());
-              if (parcel.type() == ParcelType.HAZELNUT_SLOT
-                  && squirrel.hasHazelnut()
-                  && !hazelNutInTheHole) {
-                LOGGER.info(
-                    "Squirrel {} put his hazelnut in {}", squirrel.color(), parcel.position());
-                updatedSquirrel = squirrel.releaseHazelnut();
-                hazelNutInTheHole = true;
-              }
-              updatedSlotPositions.put(
+              LOGGER.info(
+                  "Use position {}, hazelNutInTheHole {}",
                   parcel.position(),
-                  new Slot(Optional.of(updatedSquirrel), parcel.position(), hazelNutInTheHole));
+                  updatedSlotPositionsWithSquirrel.get(parcel.position()));
+              updatedSlotPositionsWithSquirrel.put(
+                  parcel.position(),
+                  new Slot(
+                      Optional.of(squirrel),
+                      parcel.position(),
+                      updatedSlotPositionsWithSquirrel.get(parcel.position()).hazelnutInTheHole()));
             });
-    return new Board(updatedSlotPositions);
+    return updatedSlotPositionsWithSquirrel;
+  }
+
+  private Map<Position, Slot> releaseHazelnut(
+      Squirrel squirrelWithHazelnut, Map<Position, Slot> updatedSlotPositions) {
+    Map<Position, Slot> updatedSlotPositionsWithSquirrel = new HashMap<>(updatedSlotPositions);
+    Squirrel updatedSquirrel = squirrelWithHazelnut.releaseHazelnut();
+    updatedSquirrel
+        .pieceParcels()
+        .forEach(
+            squirrelWithHazelnutParcel -> {
+              boolean hazelNutInTheHole =
+                  squirrelWithHazelnutParcel.type() == ParcelType.HAZELNUT_SLOT;
+              if (hazelNutInTheHole) {
+                LOGGER.info(
+                    "Squirrel {} put his hazelnut in {}",
+                    squirrelWithHazelnut.color(),
+                    squirrelWithHazelnutParcel.position());
+              }
+              updatedSlotPositionsWithSquirrel.put(
+                  squirrelWithHazelnutParcel.position(),
+                  new Slot(
+                      Optional.of(updatedSquirrel),
+                      squirrelWithHazelnutParcel.position(),
+                      hazelNutInTheHole));
+            });
+    return updatedSlotPositionsWithSquirrel;
+  }
+
+  private static boolean canReleaseHazelnut(Squirrel squirrel, PieceParcel parcel, Slot slot) {
+    return parcel.type() == ParcelType.HAZELNUT_SLOT
+        && squirrel.hasHazelnut()
+        && slot.hasHole()
+        && !slot.hazelnutInTheHole();
+  }
+
+  public boolean allSquirrelHasReleasedTheirHazelnuts() {
+    final Stream<Boolean> squirels =
+        slotPositions.values().stream()
+            .map(Slot::piece)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .filter(Squirrel.class::isInstance)
+            .map(Squirrel.class::cast)
+            .map(Squirrel::hasHazelnut);
+    return squirels.reduce(true, (acc, hasHazelnut) -> acc && !hasHazelnut);
   }
 }

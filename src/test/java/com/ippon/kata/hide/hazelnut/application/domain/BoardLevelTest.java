@@ -24,7 +24,7 @@ class BoardLevelTest {
   }
 
   @Test
-  void givenMoveHazelnutUnderHole_move_shouldUpdateBoardWithAHoleWithHazelnult() {
+  void playLevelOne() {
     final BoardLevel boardLevel = givenLevelOne();
     Board board = boardLevel.start();
 
@@ -34,6 +34,7 @@ class BoardLevelTest {
 
     then(board.slot(new Position(0, 1)).hazelnutInTheHole()).isTrue();
     then(board.slot(new Position(2, 0)).hazelnutInTheHole()).isTrue();
+    then(board.allSquirrelHasReleasedTheirHazelnuts()).isTrue();
   }
 
   private static BoardLevel givenLevelOne() {
