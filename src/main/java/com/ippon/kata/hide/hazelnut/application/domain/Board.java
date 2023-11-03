@@ -68,18 +68,18 @@ public record Board(Map<Position, Slot> slotPositions) {
     return slotPositions.get(position).isOccupied();
   }
 
-  public Optional<Piece> piece(Piece piece) {
+  public Optional<Piece> piece(Color color) {
     return slotPositions.values().stream()
         .map(Slot::piece)
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .filter(piece1 -> piece1.color().equals(piece.color()))
+        .filter(piece1 -> piece1.color().equals(color))
         .findAny();
   }
 
   public Board move(Piece piece, Orientation orientation) {
     Board updatedBoard = this;
-    final Optional<Piece> squirrelPieceOpt = piece(piece);
+    final Optional<Piece> squirrelPieceOpt = piece(piece.color());
     if (squirrelPieceOpt.isPresent()) {
       final Piece squirrelPiece = squirrelPieceOpt.get();
       if (squirrelPiece instanceof Squirrel squirrel) {
