@@ -1,6 +1,7 @@
 package com.ippon.kata.hide.hazelnut.infrastructure.primary.javafx;
 
 import com.ippon.kata.hide.hazelnut.JavaFxHideHazelnutApplication;
+import com.ippon.kata.hide.hazelnut.application.domain.Board;
 import com.ippon.kata.hide.hazelnut.application.domain.Color;
 import com.ippon.kata.hide.hazelnut.application.domain.Orientation;
 import com.ippon.kata.hide.hazelnut.infrastructure.primary.spring.GameAPI;
@@ -38,6 +39,7 @@ public class HideHazelnutGame extends Application {
       HideHazelnutGame.class.getResource("/sounds/tetris-theme.mp3");
   private Color currentSquirrelColor;
   private BoardRenderer boardRenderer;
+  private Board board;
 
   public HideHazelnutGame() {
     canvas = new Canvas(HALF * WIDTH * BLOCK_SIZE, (double) HEIGHT * BLOCK_SIZE);
@@ -92,8 +94,11 @@ public class HideHazelnutGame extends Application {
         event -> {
           switch (event.getCode()) {
             case O -> selectSquirrelPiece(Color.ORANGE);
-            case LEFT -> gameAPI.move(currentSquirrelColor, Orientation.LEFT);
-            case UP -> gameAPI.move(currentSquirrelColor, Orientation.UP);
+            case G -> selectSquirrelPiece(Color.GREY);
+            case LEFT -> gameAPI.move(board, currentSquirrelColor, Orientation.LEFT);
+            case UP -> gameAPI.move(board, currentSquirrelColor, Orientation.UP);
+            case DOWN -> gameAPI.move(board, currentSquirrelColor, Orientation.DOWN);
+            case RIGHT -> gameAPI.move(board, currentSquirrelColor, Orientation.RIGHT);
           }
         });
     GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -108,6 +113,7 @@ public class HideHazelnutGame extends Application {
   }
 
   private void renderBoard(GraphicsContext graphicsContext, BoardChangedEventDTO event) {
+    this.board = event.board();
     boardRenderer.render(graphicsContext, event.board());
   }
 

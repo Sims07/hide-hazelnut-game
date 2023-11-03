@@ -32,6 +32,10 @@ public record Squirrel(Color color, List<PieceParcel> pieceParcels, boolean hasH
       case LEFT -> List.of(
           new PieceParcel(new Position(0, 0), ParcelType.HAZELNUT_SLOT),
           new PieceParcel(new Position(1, 0), ParcelType.SQUIRREL));
+      case DOWN -> // TODO
+      null;
+      case RIGHT -> // TODO
+      null;
       case NONE -> List.of();
     };
   }
@@ -53,6 +57,8 @@ public record Squirrel(Color color, List<PieceParcel> pieceParcels, boolean hasH
     return switch (orientation) {
       case LEFT -> new Position(-1, 0);
       case UP -> new Position(0, -1);
+      case DOWN -> new Position(0, 1);
+      case RIGHT -> new Position(1, 0);
       case NONE -> new Position(0, 0);
     };
   }

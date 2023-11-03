@@ -1,5 +1,6 @@
 package com.ippon.kata.hide.hazelnut.application.domain;
 
+import com.ippon.kata.hide.hazelnut.application.domain.asserts.Asserts;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -10,6 +11,10 @@ import org.slf4j.LoggerFactory;
 public record Board(Map<Position, Slot> slotPositions) {
   private static final Logger LOGGER = LoggerFactory.getLogger(Board.class);
   public static final int BOARD_SIZE = 4;
+
+  public Board {
+    Asserts.withContext(getClass()).notNull(slotPositions, "Slot positions should not be null");
+  }
 
   public static Board emptyBoard() {
     Map<Position, Slot> values = new HashMap<>();
@@ -65,7 +70,7 @@ public record Board(Map<Position, Slot> slotPositions) {
   }
 
   public boolean isSlotOccupiedAt(Position position) {
-    return slotPositions.get(position).isOccupied();
+    return Optional.ofNullable(slotPositions.get(position)).map(Slot::isOccupied).orElse(true);
   }
 
   public Optional<Piece> piece(Color color) {
