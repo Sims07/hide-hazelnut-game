@@ -26,5 +26,34 @@
       }
     }
   ]
-}
+},
+  {
+    "level": 2,
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
+    ]
+  }
 ]

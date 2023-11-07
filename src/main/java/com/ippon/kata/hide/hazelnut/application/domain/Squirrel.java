@@ -19,9 +19,28 @@ public record Squirrel(Color color, List<PieceParcel> pieceParcels, boolean hasH
         switch (color) {
           case ORANGE, GREY -> iOrientation(orientation);
           case RED -> pieceParcels();
+          case YELLOW -> lOrientation(orientation);
           default -> throw new IllegalStateException("Unexpected value: " + color);
         };
     return new Squirrel(color, pieceParcels, hasHazelnut);
+  }
+
+  private List<PieceParcel> lOrientation(Orientation orientation) {
+    return switch (orientation) {
+      case UP -> List.of(
+          new PieceParcel(new Position(0, 0), ParcelType.HAZELNUT_SLOT),
+          new PieceParcel(new Position(0, 1), ParcelType.SQUIRREL),
+          new PieceParcel(new Position(1, 0), ParcelType.FLOWER));
+      case LEFT -> List.of(
+          new PieceParcel(new Position(0, 0), ParcelType.FLOWER),
+          new PieceParcel(new Position(0, 1), ParcelType.HAZELNUT_SLOT),
+          new PieceParcel(new Position(1, 1), ParcelType.SQUIRREL));
+      case DOWN -> // TODO
+      null;
+      case RIGHT -> // TODO
+      null;
+      case NONE -> List.of();
+    };
   }
 
   private List<PieceParcel> iOrientation(Orientation orientation) {

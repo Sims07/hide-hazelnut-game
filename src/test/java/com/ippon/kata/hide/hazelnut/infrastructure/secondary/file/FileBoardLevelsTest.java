@@ -15,6 +15,6 @@ class FileBoardLevelsTest {
     final List<BoardLevel> boardLevels = fileBoardLevels.list();
 
     then(boardLevels).isNotEmpty();
-    then(boardLevels.size()).isEqualTo(1);
+    then(boardLevels.size()).isEqualTo(2);
   }
 }

@@ -16,6 +16,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
@@ -117,8 +118,17 @@ public class HideHazelnutGame extends Application {
     GraphicsContext gc = canvas.getGraphicsContext2D();
     primaryStage.setTitle(TITLE);
     primaryStage.setScene(scene);
+    scene.setOnMouseClicked(this::onMouseClicked);
     root.getChildren().add(canvas);
     return gc;
+  }
+
+  private void onMouseClicked(MouseEvent mouseEvent) {
+    int level = levelRenderer.onMouseClicked(mouseEvent);
+    if (level > 0) {
+      System.out.println(level);
+      gameAPI.startLevel(level);
+    }
   }
 
   private void selectSquirrelPiece(Color color) {
