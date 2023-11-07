@@ -1,32 +1,21 @@
 package com.ippon.kata.hide.hazelnut.application.domain;
 
-import static com.ippon.kata.hide.hazelnut.application.domain.Pieces.ORANGE_SQUIRREL;
-
 import com.ippon.kata.hide.hazelnut.application.BoardChangedEvent;
 import com.ippon.kata.hide.hazelnut.application.usecase.StartLevelUseCase;
-import java.util.List;
 
 public class StartLevel implements StartLevelUseCase {
   private final EventPublisher<BoardChangedEvent> boardEventPublisher;
+  private final BoardLevels boardLevels;
 
-  public StartLevel(EventPublisher<BoardChangedEvent> boardEventPublisher) {
+  public StartLevel(
+      EventPublisher<BoardChangedEvent> boardEventPublisher, BoardLevels boardLevels) {
     this.boardEventPublisher = boardEventPublisher;
+    this.boardLevels = boardLevels;
   }
 
   @Override
   public BoardChangedEvent startLevel(int level) {
-    final BoardLevel boardLevel =
-        new BoardLevel(
-            1,
-            Board.emptyBoard(),
-            new GameConfiguration(
-                List.of(
-                    new PieceConfiguration(
-                        Pieces.FLOWER.piece(), new Position(1, 2), Orientation.NONE),
-                    new PieceConfiguration(
-                        ORANGE_SQUIRREL.piece(), new Position(1, 1), Orientation.LEFT),
-                    new PieceConfiguration(
-                        Pieces.GREY_SQUIRREL.piece(), new Position(2, 2), Orientation.UP))));
+    final BoardLevel boardLevel = boardLevels.list().get(level - 1);
     return boardEventPublisher.publish(new BoardChangedEvent(boardLevel.start()));
   }
 }

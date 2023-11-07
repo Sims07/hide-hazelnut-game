@@ -2,7 +2,7 @@ package com.ippon.kata.hide.hazelnut.application.domain;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public record BoardLevel(int level, Board board, GameConfiguration gameConfiguration) {
+public record BoardLevel(int level, GameConfiguration gameConfiguration) {
 
   public Board start() {
     AtomicReference<Board> boardLevel = new AtomicReference<>(Board.emptyBoard());

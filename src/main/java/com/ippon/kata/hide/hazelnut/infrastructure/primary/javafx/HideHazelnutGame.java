@@ -2,12 +2,14 @@ package com.ippon.kata.hide.hazelnut.infrastructure.primary.javafx;
 
 import com.ippon.kata.hide.hazelnut.JavaFxHideHazelnutApplication;
 import com.ippon.kata.hide.hazelnut.application.domain.Board;
+import com.ippon.kata.hide.hazelnut.application.domain.BoardLevel;
 import com.ippon.kata.hide.hazelnut.application.domain.Color;
 import com.ippon.kata.hide.hazelnut.application.domain.Orientation;
 import com.ippon.kata.hide.hazelnut.infrastructure.primary.spring.GameAPI;
 import com.ippon.kata.hide.hazelnut.infrastructure.secondary.spring.model.BoardChangedEventDTO;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -24,12 +26,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class HideHazelnutGame extends Application {
 
-  private static final int WIDTH = 10;
-  private static final int HEIGHT = 22;
-  private static final int BLOCK_SIZE = 40;
+  private static final int WIDTH = 4;
+  private static final int HEIGHT = 4;
+  private static final int BLOCK_SIZE = 180;
   public static final String TITLE = "Hide Hazelnut";
   public static final int FONT_SIZE = 25;
-  public static final double HALF = 2.0;
+  public static final double HALF = 1.5;
   public static final double VOLUME = 0.1;
   private ConfigurableApplicationContext applicationContext;
   private GameAPI gameAPI;
@@ -40,6 +42,7 @@ public class HideHazelnutGame extends Application {
   private Color currentSquirrelColor;
   private BoardRenderer boardRenderer;
   private WinGameRenderer winGameRenderer;
+  private LevelRenderer levelRenderer;
   private Board board;
 
   public HideHazelnutGame() {
@@ -52,6 +55,7 @@ public class HideHazelnutGame extends Application {
     gameAPI = applicationContext.getBean(GameAPI.class);
     boardRenderer = new BoardRenderer();
     winGameRenderer = new WinGameRenderer();
+    levelRenderer = new LevelRenderer();
   }
 
   @Override
@@ -60,10 +64,16 @@ public class HideHazelnutGame extends Application {
     graphicsContext.setFont(new Font(FONT_SIZE));
     registerListeners(graphicsContext);
     initMediaPLayers();
+    initLevels(graphicsContext);
     startLevelOne();
     playHideHazelnutThemeMusic();
 
     primaryStage.show();
+  }
+
+  private void initLevels(GraphicsContext graphicsContext) {
+    List<BoardLevel> boardLevels = gameAPI.listGameLevels();
+    levelRenderer.render(graphicsContext, boardLevels);
   }
 
   private void startLevelOne() {

@@ -40,7 +40,6 @@ class BoardLevelTest {
   private static BoardLevel givenLevelOne() {
     return new BoardLevel(
         1,
-        Board.emptyBoard(),
         new GameConfiguration(
             List.of(
                 new PieceConfiguration(Pieces.FLOWER.piece(), new Position(1, 2), Orientation.NONE),
