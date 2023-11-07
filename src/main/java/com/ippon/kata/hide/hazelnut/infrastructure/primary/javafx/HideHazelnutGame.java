@@ -108,6 +108,7 @@ public class HideHazelnutGame extends Application {
           switch (event.getCode()) {
             case O -> selectSquirrelPiece(Color.ORANGE);
             case G -> selectSquirrelPiece(Color.GREY);
+            case Y -> selectSquirrelPiece(Color.YELLOW);
             case LEFT -> gameAPI.move(board, currentSquirrelColor, Orientation.LEFT);
             case UP -> gameAPI.move(board, currentSquirrelColor, Orientation.UP);
             case DOWN -> gameAPI.move(board, currentSquirrelColor, Orientation.DOWN);

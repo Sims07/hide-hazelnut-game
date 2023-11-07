@@ -19,6 +19,14 @@ public enum Pieces {
               new PieceParcel(new Position(1, 1), ParcelType.SQUIRREL),
               new PieceParcel(new Position(0, 1), ParcelType.HAZELNUT_SLOT)),
           true)),
+  BLACK_SQUIRREL(
+      new Squirrel(
+          Color.BLACK,
+          List.of(
+              new PieceParcel(new Position(0, 0), ParcelType.FLOWER),
+              new PieceParcel(new Position(1, 1), ParcelType.SQUIRREL),
+              new PieceParcel(new Position(0, 1), ParcelType.HAZELNUT_SLOT)),
+          true)),
   GREY_SQUIRREL(
       new Squirrel(
           Color.GREY,
