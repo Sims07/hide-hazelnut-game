@@ -25,10 +25,7 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
 
   @Override
   public void render(GraphicsContext graphicsContext, List<BoardLevel> boardLevels) {
-    boardLevels.forEach(
-        (boardLevel) -> {
-          renderBoardLevel(graphicsContext, boardLevel.level());
-        });
+    boardLevels.forEach(boardLevel -> renderBoardLevel(graphicsContext, boardLevel.level()));
   }
 
   private void renderBoardLevel(GraphicsContext graphicsContext, double level) {
@@ -46,7 +43,7 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
     graphicsContext.strokeRect(finalX, finalY, LEVEL_WIDTH, LEVEL_WIDTH);
     graphicsContext.setFill(Color.BLACK);
     graphicsContext.fillText(
-        "" + levelToUse,
+        "" + (int) level,
         x + LEVEL_WIDTH / TEXT_WIDTH_DIVISION + PADDING,
         y + LEVEL_WIDTH / LevelRenderer.TEXT_WIDTH_Y_DIVISION + PADDING);
   }

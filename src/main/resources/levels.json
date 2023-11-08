@@ -1,32 +1,33 @@
-[{
-  "level": 1,
-  "configuration": [
-    {
-      "type": "FLOWER",
-      "orientation": "NONE",
-      "position": {
-        "x": 1,
-        "y": 2
+[
+  {
+    "level": 1,
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
       }
-    },
-    {
-      "type": "ORANGE_SQUIRREL",
-      "orientation": "LEFT",
-      "position": {
-        "x": 1,
-        "y": 1
-      }
-    },
-    {
-      "type": "GREY_SQUIRREL",
-      "orientation": "UP",
-      "position": {
-        "x": 2,
-        "y": 2
-      }
-    }
-  ]
-},
+    ]
+  },
   {
     "level": 2,
     "configuration": [
@@ -52,6 +53,123 @@
         "position": {
           "x": 1,
           "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 3,
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 0,
+          "y": 3
+        }
+      }
+    ]
+  }
+,
+  {
+    "level": 4,
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
+    ]
+  },
+  {
+    "level": 5,
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      }
+    ]
+  },
+  {
+    "level": 6,
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 1,
+          "y": 2
         }
       }
     ]

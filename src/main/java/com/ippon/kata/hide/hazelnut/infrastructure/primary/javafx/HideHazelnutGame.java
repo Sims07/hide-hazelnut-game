@@ -109,6 +109,7 @@ public class HideHazelnutGame extends Application {
             case O -> selectSquirrelPiece(Color.ORANGE);
             case G -> selectSquirrelPiece(Color.GREY);
             case Y -> selectSquirrelPiece(Color.YELLOW);
+            case B -> selectSquirrelPiece(Color.BLACK);
             case LEFT -> gameAPI.move(board, currentSquirrelColor, Orientation.LEFT);
             case UP -> gameAPI.move(board, currentSquirrelColor, Orientation.UP);
             case DOWN -> gameAPI.move(board, currentSquirrelColor, Orientation.DOWN);
@@ -127,7 +128,6 @@ public class HideHazelnutGame extends Application {
   private void onMouseClicked(MouseEvent mouseEvent) {
     int level = levelRenderer.onMouseClicked(mouseEvent);
     if (level > 0) {
-      System.out.println(level);
       gameAPI.startLevel(level);
     }
   }

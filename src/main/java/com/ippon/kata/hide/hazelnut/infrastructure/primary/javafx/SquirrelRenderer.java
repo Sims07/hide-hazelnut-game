@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 
 public class SquirrelRenderer {
+
   private static final double EAR_SIZE = 0.25; // 25% de la taille de la tête
   private static final double EYE_SIZE = 0.17; // 17% de la taille de la tête
   private static final double PUPIL_SIZE = 0.07; // 7% de la taille de la tête
@@ -21,13 +22,16 @@ public class SquirrelRenderer {
     // Oreille gauche (pointue, attachée à la tête)
     double earSize = ecureuilSize * EAR_SIZE;
     gc.setFill(color);
-    gc.fillPolygon(new double[] {x, x - earSize, x + earSize}, new double[] {y, y - earSize, y}, 3);
+    gc.fillPolygon(
+        new double[] {x, x - earSize, x + earSize},
+        new double[] {y + 10, y - earSize + 10, y + 10},
+        3);
 
     // Oreille droite (pointue, attachée à la tête)
     gc.setFill(color);
     gc.fillPolygon(
         new double[] {x + ecureuilSize, x + ecureuilSize + earSize, x + ecureuilSize - earSize},
-        new double[] {y, y - earSize, y},
+        new double[] {y + 10, y - earSize + 10, y + 10},
         3);
 
     // Yeux

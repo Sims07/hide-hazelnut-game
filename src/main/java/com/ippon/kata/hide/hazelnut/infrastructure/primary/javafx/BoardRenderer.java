@@ -7,17 +7,14 @@ import com.ippon.kata.hide.hazelnut.application.domain.Position;
 import com.ippon.kata.hide.hazelnut.application.domain.Slot;
 import com.ippon.kata.hide.hazelnut.application.domain.Squirrel;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BoardRenderer extends AbstractRenderer<Board> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(BoardRenderer.class);
   public static final int ARC_WIDTH = 50;
   public static final Color PICE_GREEN_COLOR = Color.rgb(184, 204, 52);
   public static final Color FLOWER_RED_COLOR = Color.rgb(250, 139, 118);
@@ -25,16 +22,35 @@ public class BoardRenderer extends AbstractRenderer<Board> {
   public static final Color HAZELNUT_FILL_COLOR = Color.rgb(250, 179, 84);
   public static final double HAZELNUT_LINE_WIDTH = 30.0;
   public static final int PETAL_RADIUS = 60;
+  public static final int LINE_WIDTH = 1;
+  public static final Color EMPTY_BOARD_COLOR = Color.rgb(190, 144, 104);
+  public static final int HAZELNUT_INTERNAL_LINE_WIDTH = 10;
 
   @Override
   public void render(GraphicsContext graphicsContext, Board board) {
+    renderEmptyBoard(graphicsContext, board);
+    renderPieces(graphicsContext, board);
+    renderHazelnut(graphicsContext, board);
+  }
+
+  private static void renderHazelnut(GraphicsContext graphicsContext, Board board) {
     board
         .slotPositions()
         .forEach(
             (position, slot) -> {
-              renderEmptySlot(
-                  graphicsContext, Color.rgb(190, 144, 104), slot, position.x(), position.y());
+              if (slot.hazelnutInTheHole() && slot.piece().isEmpty()) {
+                drawCircle(
+                    graphicsContext,
+                    position.x(),
+                    position.y(),
+                    HAZELNUT_STROKE_COLOR,
+                    HAZELNUT_FILL_COLOR,
+                    LINE_WIDTH);
+              }
             });
+  }
+
+  private void renderPieces(GraphicsContext graphicsContext, Board board) {
     Arrays.stream(com.ippon.kata.hide.hazelnut.application.domain.Color.values())
         .map(board::piece)
         .filter(Optional::isPresent)
@@ -56,20 +72,15 @@ public class BoardRenderer extends AbstractRenderer<Board> {
                   throw new IllegalStateException("Unexpected value: " + piece);
               }
             });
+  }
+
+  private static void renderEmptyBoard(GraphicsContext graphicsContext, Board board) {
     board
         .slotPositions()
         .forEach(
-            (position, slot) -> {
-              if (slot.hazelnutInTheHole()) {
-                drawCircle(
-                    graphicsContext,
-                    position.x(),
-                    position.y(),
-                    HAZELNUT_STROKE_COLOR,
-                    HAZELNUT_FILL_COLOR,
-                    1);
-              }
-            });
+            (position, slot) ->
+                renderEmptySlot(
+                    graphicsContext, EMPTY_BOARD_COLOR, slot, position.x(), position.y()));
   }
 
   public static void renderFlower(GraphicsContext graphicsContext, Flower flower) {
@@ -77,16 +88,19 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     double y = flower.pieceParcels().get(0).position().y();
     graphicsContext.setFill(PICE_GREEN_COLOR);
     graphicsContext.fillRoundRect(
-        x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, ARC_WIDTH, ARC_WIDTH);
+        x * BLOCK_SIZE + 2,
+        y * BLOCK_SIZE + 2,
+        BLOCK_SIZE - 2,
+        BLOCK_SIZE - 2,
+        ARC_WIDTH,
+        ARC_WIDTH);
     graphicsContext.setFill(Color.BLACK);
-    graphicsContext.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
     // flower
 
     drawPetals(
         graphicsContext,
         x * BLOCK_SIZE + (double) BLOCK_SIZE / 2,
         y * BLOCK_SIZE + (double) BLOCK_SIZE / 2,
-        PETAL_RADIUS,
         toColor(flower.color()));
     drawCircle(
         graphicsContext, x, y, FLOWER_RED_COLOR, toColor(flower.color()), HAZELNUT_LINE_WIDTH);
@@ -103,6 +117,8 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     final double upperLeftX = x * BLOCK_SIZE + delta / 2;
     final double upperLeftY = y * BLOCK_SIZE + delta / 2;
     double width = BLOCK_SIZE - delta;
+    graphicsContext.save();
+
     graphicsContext.setStroke(strokeColor);
     final double lineWidthOriginal = graphicsContext.getLineWidth();
     graphicsContext.setLineWidth(lineWitdth);
@@ -111,18 +127,25 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     graphicsContext.setFill(circleFillColor);
     graphicsContext.fillOval(upperLeftX, upperLeftY, width, width);
     graphicsContext.setLineWidth(lineWidthOriginal);
+
+    graphicsContext.restore();
   }
 
-  private static void drawPetals(
-      GraphicsContext gc, double centerX, double centerY, double petalRadius, Color color) {
+  private static void drawPetals(GraphicsContext gc, double centerX, double centerY, Color color) {
     gc.setFill(color);
     double angleIncrement = 360.0 / 6; // 6 pétales
 
     for (int i = 0; i < 6; i++) {
       double angle = i * angleIncrement;
-      double petalX = centerX + petalRadius * Math.cos(Math.toRadians(angle));
-      double petalY = centerY + petalRadius * Math.sin(Math.toRadians(angle));
-      gc.fillOval(petalX - petalRadius / 2, petalY - petalRadius / 2, petalRadius, petalRadius);
+      double petalX =
+          centerX + (double) BoardRenderer.PETAL_RADIUS * Math.cos(Math.toRadians(angle));
+      double petalY =
+          centerY + (double) BoardRenderer.PETAL_RADIUS * Math.sin(Math.toRadians(angle));
+      gc.fillOval(
+          petalX - (double) BoardRenderer.PETAL_RADIUS / 2,
+          petalY - (double) BoardRenderer.PETAL_RADIUS / 2,
+          BoardRenderer.PETAL_RADIUS,
+          BoardRenderer.PETAL_RADIUS);
     }
   }
 
@@ -141,35 +164,73 @@ public class BoardRenderer extends AbstractRenderer<Board> {
   }
 
   private void drawContourLSquirrel(GraphicsContext graphicsContext, Squirrel squirrel) {
-    int minX =
-        squirrel.pieceParcels().stream()
-            .map(PieceParcel::position)
-            .map(Position::x)
-            .min(Integer::compareTo)
-            .orElseThrow();
-    final Position horizonTalPositionLimit =
-        squirrel.pieceParcels().stream()
-            .map(PieceParcel::position)
-            .filter(position -> position.x() == minX + 1)
-            .findAny()
-            .orElseThrow();
     graphicsContext.setFill(PICE_GREEN_COLOR);
-    final int width = BLOCK_SIZE * 2;
-    drawPiece(graphicsContext, minX, horizonTalPositionLimit.y(), width, BLOCK_SIZE);
-    int minY =
-        squirrel.pieceParcels().stream()
-            .map(PieceParcel::position)
-            .map(Position::y)
-            .min(Integer::compareTo)
-            .orElseThrow();
-    final Position verticalPositionLimit =
-        squirrel.pieceParcels().stream()
-            .map(PieceParcel::position)
-            .filter(position -> position.y() == minY + 1)
-            .findAny()
-            .orElseThrow();
-    final int height = BLOCK_SIZE * 2;
-    drawPiece(graphicsContext, verticalPositionLimit.x(), minY, BLOCK_SIZE, height);
+    switch (squirrel.color()) {
+      case BLACK -> drawContourBlackL(graphicsContext, squirrel);
+      case YELLOW -> drawContourYellowL(graphicsContext, squirrel);
+    }
+  }
+
+  private static Position minY(Squirrel squirrel) {
+    return squirrel.pieceParcels().stream()
+        .map(PieceParcel::position)
+        .min(Comparator.comparing(Position::y))
+        .orElseThrow();
+  }
+
+  private static Position minX(Squirrel squirrel) {
+    return squirrel.pieceParcels().stream()
+        .map(PieceParcel::position)
+        .min(Comparator.comparing(Position::x))
+        .orElseThrow();
+  }
+
+  private void drawContourYellowL(GraphicsContext graphicsContext, Squirrel squirrel) {
+    final Position minX = minX(squirrel);
+    final Position minY = minY(squirrel);
+    switch (squirrel.orientation()) {
+      case UP, LEFT -> {
+        drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minX.y() + 1);
+        drawVerticalSquirrel(graphicsContext, minX.x(), minX.y());
+      }
+      case DOWN -> {
+        drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minX.y());
+        drawVerticalSquirrel(graphicsContext, minX.x() + 1, minX.y() - 1);
+      }
+      case RIGHT -> {
+        drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minY.y());
+        drawVerticalSquirrel(graphicsContext, minX.x(), minY.y());
+      }
+      case NONE -> {}
+    }
+  }
+
+  private void drawContourBlackL(GraphicsContext graphicsContext, Squirrel squirrel) {
+    final Position minX = minX(squirrel);
+    final Position minY = minY(squirrel);
+    switch (squirrel.orientation()) {
+      case UP, LEFT -> {
+        drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minX.y());
+        drawVerticalSquirrel(graphicsContext, minX.x() + 1, minX.y() - 1);
+      }
+      case DOWN -> {
+        drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minX.y());
+        drawVerticalSquirrel(graphicsContext, minX.x() + 1, minX.y());
+      }
+      case RIGHT -> {
+        drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minY.y());
+        drawVerticalSquirrel(graphicsContext, minX.x(), minY.y());
+      }
+      case NONE -> {}
+    }
+  }
+
+  private void drawVerticalSquirrel(GraphicsContext graphicsContext, int x, int y) {
+    drawPiece(graphicsContext, x, y, BLOCK_SIZE, BLOCK_SIZE * 2);
+  }
+
+  private void drawBottomHorizontalSquirrel(GraphicsContext graphicsContext, int x, int y) {
+    drawPiece(graphicsContext, x, y, BLOCK_SIZE * 2, BLOCK_SIZE);
   }
 
   private void drawParcelDetail(
@@ -211,7 +272,7 @@ public class BoardRenderer extends AbstractRenderer<Board> {
           position.y(),
           HAZELNUT_STROKE_COLOR,
           Color.TRANSPARENT,
-          10);
+          BoardRenderer.HAZELNUT_INTERNAL_LINE_WIDTH);
     }
   }
 
@@ -249,26 +310,16 @@ public class BoardRenderer extends AbstractRenderer<Board> {
   }
 
   private static boolean horizontal(int maxX, int minX) {
-    return maxX - minX == 1;
+    return maxX - minX == LINE_WIDTH;
   }
 
   private static void drawPiece(
-      GraphicsContext graphicsContext, int minX, int minY, int width, int blockSize) {
-    final Paint fillInitColor = graphicsContext.getFill();
+      GraphicsContext graphicsContext, int x, int y, int width, int height) {
+    graphicsContext.save();
     graphicsContext.fillRoundRect(
-        minX * BLOCK_SIZE, minY * BLOCK_SIZE, width, blockSize, ARC_WIDTH, ARC_WIDTH);
+        x * BLOCK_SIZE + 2, y * BLOCK_SIZE + 2, width - 2, height - 2, ARC_WIDTH, ARC_WIDTH);
     graphicsContext.setFill(Color.BLACK);
-    graphicsContext.strokeRect(minX * BLOCK_SIZE, minY * BLOCK_SIZE, width, blockSize);
-    graphicsContext.setFill(fillInitColor);
-  }
-
-  private void renderPieceParcel(GraphicsContext graphicsContext, int x, int y) {
-    final Paint fillInitColor = graphicsContext.getFill();
-    graphicsContext.setFill(PICE_GREEN_COLOR);
-    graphicsContext.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-    graphicsContext.setFill(Color.BLACK);
-    graphicsContext.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-    graphicsContext.setFill(fillInitColor);
+    graphicsContext.restore();
   }
 
   private static Color toColor(com.ippon.kata.hide.hazelnut.application.domain.Color color) {
