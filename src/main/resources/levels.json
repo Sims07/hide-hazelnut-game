@@ -1,6 +1,7 @@
 [
   {
     "level": 1,
+    "difficulty": "STARTER",
     "configuration": [
       {
         "type": "FLOWER",
@@ -30,6 +31,7 @@
   },
   {
     "level": 2,
+    "difficulty": "STARTER",
     "configuration": [
       {
         "type": "FLOWER",
@@ -59,6 +61,7 @@
   },
   {
     "level": 3,
+    "difficulty": "STARTER",
     "configuration": [
       {
         "type": "FLOWER",
@@ -89,6 +92,7 @@
 ,
   {
     "level": 4,
+    "difficulty": "STARTER",
     "configuration": [
       {
         "type": "FLOWER",
@@ -118,6 +122,7 @@
   },
   {
     "level": 5,
+    "difficulty": "STARTER",
     "configuration": [
       {
         "type": "FLOWER",
@@ -147,6 +152,7 @@
   },
   {
     "level": 6,
+    "difficulty": "STARTER",
     "configuration": [
       {
         "type": "FLOWER",
