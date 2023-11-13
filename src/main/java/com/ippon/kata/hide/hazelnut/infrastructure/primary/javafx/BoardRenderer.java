@@ -103,7 +103,22 @@ public class BoardRenderer extends AbstractRenderer<Board> {
         y * BLOCK_SIZE + (double) BLOCK_SIZE / 2,
         toColor(flower.color()));
     drawCircle(
-        graphicsContext, x, y, FLOWER_RED_COLOR, toColor(flower.color()), HAZELNUT_LINE_WIDTH);
+        graphicsContext,
+        x,
+        y,
+        innerFlowerColor(flower.color()),
+        toColor(flower.color()),
+        HAZELNUT_LINE_WIDTH);
+  }
+
+  private static Color innerFlowerColor(
+      com.ippon.kata.hide.hazelnut.application.domain.Color color) {
+    return switch (color) {
+      case BLACK -> Color.LIGHTBLUE;
+      case RED -> FLOWER_RED_COLOR;
+      case YELLOW -> Color.WHITE;
+      default -> throw new IllegalStateException("Unexpected value: " + color);
+    };
   }
 
   private static void drawCircle(
