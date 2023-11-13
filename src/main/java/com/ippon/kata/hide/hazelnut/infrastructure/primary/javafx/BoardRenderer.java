@@ -324,10 +324,10 @@ public class BoardRenderer extends AbstractRenderer<Board> {
 
   private static Color toColor(com.ippon.kata.hide.hazelnut.application.domain.Color color) {
     return switch (color) {
-      case BLACK -> Color.BLACK;
-      case ORANGE -> Color.ORANGE;
+      case BLACK -> Color.rgb(100, 98, 97);
+      case ORANGE -> Color.rgb(227, 91, 35);
       case RED -> Color.rgb(208, 15, 17);
-      case GREY -> Color.GRAY;
+      case GREY -> Color.LIGHTGRAY;
       case YELLOW -> Color.YELLOW;
     };
   }

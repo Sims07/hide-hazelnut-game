@@ -1,5 +1,7 @@
 package com.ippon.kata.hide.hazelnut.infrastructure.primary.javafx;
 
+import static java.lang.StringTemplate.STR;
+
 import com.ippon.kata.hide.hazelnut.application.domain.BoardLevel;
 import java.util.HashMap;
 import java.util.List;
@@ -59,5 +61,10 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
           }
         });
     return levelClicked.get();
+  }
+
+  public void renderLevel(GraphicsContext graphicsContext, int level) {
+    renderTextAt(graphicsContext,  boardWidth() + BLOCK_SIZE, boardHeight()/2.0, STR."Niveau \{ level }", Color.BLACK);
+
   }
 }

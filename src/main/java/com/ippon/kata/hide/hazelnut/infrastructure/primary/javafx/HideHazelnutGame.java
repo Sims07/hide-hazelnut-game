@@ -45,6 +45,7 @@ public class HideHazelnutGame extends Application {
   private WinGameRenderer winGameRenderer;
   private LevelRenderer levelRenderer;
   private Board board;
+  private int currentLevel = 1;
 
   public HideHazelnutGame() {
     canvas = new Canvas(HALF * WIDTH * BLOCK_SIZE, (double) HEIGHT * BLOCK_SIZE);
@@ -66,7 +67,7 @@ public class HideHazelnutGame extends Application {
     registerListeners(graphicsContext);
     initMediaPLayers();
     initLevels(graphicsContext);
-    startLevelOne();
+    startLevel();
     playHideHazelnutThemeMusic();
 
     primaryStage.show();
@@ -77,8 +78,9 @@ public class HideHazelnutGame extends Application {
     levelRenderer.render(graphicsContext, boardLevels);
   }
 
-  private void startLevelOne() {
-    gameAPI.startLevel(1);
+  private void startLevel() {
+    gameAPI.startLevel(currentLevel);
+    levelRenderer.renderLevel(canvas.getGraphicsContext2D(), currentLevel);
   }
 
   private void registerListeners(GraphicsContext graphicsContext) {
@@ -114,7 +116,7 @@ public class HideHazelnutGame extends Application {
             case UP -> gameAPI.move(board, currentSquirrelColor, Orientation.UP);
             case DOWN -> gameAPI.move(board, currentSquirrelColor, Orientation.DOWN);
             case RIGHT -> gameAPI.move(board, currentSquirrelColor, Orientation.RIGHT);
-            case N -> startLevelOne();
+            case N -> startLevel();
           }
         });
     GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -128,7 +130,8 @@ public class HideHazelnutGame extends Application {
   private void onMouseClicked(MouseEvent mouseEvent) {
     int level = levelRenderer.onMouseClicked(mouseEvent);
     if (level > 0) {
-      gameAPI.startLevel(level);
+      this.currentLevel = level;
+      startLevel();
     }
   }
 
@@ -141,6 +144,7 @@ public class HideHazelnutGame extends Application {
     boardRenderer.render(graphicsContext, event.board());
     if (this.board.allSquirrelHasReleasedTheirHazelnuts()) {
       winGameRenderer.render(graphicsContext, event);
+      this.currentLevel++;
     }
   }
 
