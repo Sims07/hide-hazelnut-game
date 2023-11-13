@@ -99,8 +99,8 @@ public class BoardRenderer extends AbstractRenderer<Board> {
 
     drawPetals(
         graphicsContext,
-        x * BLOCK_SIZE + (double) BLOCK_SIZE / 2,
-        y * BLOCK_SIZE + (double) BLOCK_SIZE / 2,
+        upperLeft(x, (double) BLOCK_SIZE),
+        upperLeft(y, (double) BLOCK_SIZE),
         toColor(flower.color()));
     drawCircle(
         graphicsContext,
@@ -129,8 +129,8 @@ public class BoardRenderer extends AbstractRenderer<Board> {
       Color circleFillColor,
       double lineWitdth) {
     double delta = PADDING * 2;
-    final double upperLeftX = x * BLOCK_SIZE + delta / 2;
-    final double upperLeftY = y * BLOCK_SIZE + delta / 2;
+    final double upperLeftX = upperLeft(x, delta);
+    final double upperLeftY = upperLeft(y, delta);
     double width = BLOCK_SIZE - delta;
     graphicsContext.save();
 
@@ -144,6 +144,10 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     graphicsContext.setLineWidth(lineWidthOriginal);
 
     graphicsContext.restore();
+  }
+
+  private static double upperLeft(double x, double delta) {
+    return x * BLOCK_SIZE + delta / 2;
   }
 
   private static void drawPetals(GraphicsContext gc, double centerX, double centerY, Color color) {
@@ -351,8 +355,8 @@ public class BoardRenderer extends AbstractRenderer<Board> {
       GraphicsContext graphicsContext, Color color, Slot slot, int x, int y) {
     renderParcel(graphicsContext, color, x, y);
     if (slot.hasHole()) {
-      final double upperLeftX = (double) x * BLOCK_SIZE + PADDING / 2;
-      final double upperLeftY = (double) y * BLOCK_SIZE + PADDING / 2;
+      final double upperLeftX = upperLeft((double) x, PADDING);
+      final double upperLeftY = upperLeft((double) y, PADDING);
       double width = BLOCK_SIZE - PADDING;
       graphicsContext.setFill(Color.BLACK);
       graphicsContext.strokeOval(upperLeftX, upperLeftY, width, width);
