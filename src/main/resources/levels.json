@@ -179,5 +179,35 @@
         }
       }
     ]
+  },
+  {
+    "level": 7,
+    "difficulty": "STARTER",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 3,
+          "y": 0
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
   }
 ]

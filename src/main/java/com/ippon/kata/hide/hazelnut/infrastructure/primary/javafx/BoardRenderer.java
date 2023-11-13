@@ -199,7 +199,7 @@ public class BoardRenderer extends AbstractRenderer<Board> {
       }
       case RIGHT -> {
         drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minY.y());
-        drawVerticalSquirrel(graphicsContext, minX.x(), minY.y());
+        drawVerticalSquirrel(graphicsContext, minX.x() + 1, minY.y());
       }
       case NONE -> {}
     }
