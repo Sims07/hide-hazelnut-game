@@ -31,28 +31,28 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
     boardLevels.forEach(boardLevel -> renderBoardLevel(graphicsContext, boardLevel.level()));
   }
 
-  private void renderBoardLevel(GraphicsContext graphicsContext, double level) {
+  private void renderBoardLevel(GraphicsContext graphicsContext, int level) {
     renderLevelColor(graphicsContext, level, false);
   }
 
-  private void renderLevelColor(GraphicsContext graphicsContext, double level, boolean highLight) {
-    int levelToUse = (int) (level - 1);
-    final LevelColor levelColor = levelColor(levelToUse, highLight);
+  private void renderLevelColor(GraphicsContext graphicsContext, int level, boolean highLight) {
+    int levelToUse = (level - 1);
+    final LevelColor levelColor = levelColor(level, highLight);
     graphicsContext.save();
     graphicsContext.setFill(levelColor.backgroundColor());
 
     final double xPosition = levelToUse % LEVEL_BY_LINES;
     final double x = boardWidth() + xPosition * LEVEL_WIDTH;
-    final double y = ((int) levelToUse / LEVEL_BY_LINES) * (double) LEVEL_WIDTH;
+    final double y = (levelToUse / LEVEL_BY_LINES) * (double) LEVEL_WIDTH;
     final double finalX = x + PADDING;
     final double finalY = y + PADDING;
-    positionLevelMap.put(new PositionOnScreen(finalX, finalY), (int) level);
+    positionLevelMap.put(new PositionOnScreen(finalX, finalY), level);
     LOGGER.info("level={},x={},y={}", levelToUse, xPosition, levelToUse / LEVEL_BY_LINES);
     graphicsContext.fillRect(finalX, finalY, LEVEL_WIDTH, LEVEL_WIDTH);
     graphicsContext.strokeRect(finalX, finalY, LEVEL_WIDTH, LEVEL_WIDTH);
     graphicsContext.setFill(levelColor.fontColor());
     graphicsContext.fillText(
-        "" + (int) level,
+        "" + level,
         x + LEVEL_WIDTH / TEXT_WIDTH_DIVISION + PADDING - 5,
         y + LEVEL_WIDTH / LevelRenderer.TEXT_WIDTH_Y_DIVISION + PADDING - 5);
     graphicsContext.restore();
@@ -61,13 +61,28 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
   record LevelColor(Paint backgroundColor, Paint fontColor) {}
 
   private LevelColor levelColor(int levelToUse, boolean highLight) {
-    if (levelToUse >= 0 && levelToUse < 12) {
+    if (starterLevel(levelToUse)) {
       return new LevelColor(highLight ? Color.GREEN : STARTER_BG_COLOR, Color.WHITE);
     }
-    if (levelToUse >= 12 && levelToUse < 26) {
+    if (juniorLevel(levelToUse)) {
       return new LevelColor(highLight ? Color.CORAL : Color.ORANGE, Color.WHITE);
     }
+    if (expertLevel(levelToUse)) {
+      return new LevelColor(highLight ? Color.CORAL : Color.RED, Color.WHITE);
+    }
     return new LevelColor(Color.GREENYELLOW, highLight ? Color.BLACK : Color.WHITE);
+  }
+
+  private static boolean expertLevel(int levelToUse) {
+    return levelToUse > 24 && levelToUse < 37;
+  }
+
+  private static boolean juniorLevel(int levelToUse) {
+    return levelToUse > 12 && levelToUse <= 24;
+  }
+
+  private static boolean starterLevel(int levelToUse) {
+    return levelToUse > 0 && levelToUse <= 12;
   }
 
   public int onMouseClicked(MouseEvent mouseEvent) {

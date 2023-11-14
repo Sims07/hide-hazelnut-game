@@ -1,6 +1,5 @@
 package com.ippon.kata.hide.hazelnut.application.domain;
 
-import com.ippon.kata.hide.hazelnut.application.BoardChangedEvent;
 import com.ippon.kata.hide.hazelnut.application.usecase.StartLevelUseCase;
 
 public class StartLevel implements StartLevelUseCase {

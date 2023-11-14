@@ -56,7 +56,8 @@ public record Board(Map<Position, Slot> slotPositions) {
                         updatedSlotPositions.get(parcel.position()).hazelnutInTheHole()));
               });
     } else {
-      throw new IllegalArgumentException("Squirrel is already at this slot");
+      throw new IllegalArgumentException( STR
+          ."Squirrel is already at this slot \{ updatedPiece }" + updatedPiece);
     }
 
     return new Board(updatedSlotPositions);

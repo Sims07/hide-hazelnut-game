@@ -775,5 +775,461 @@
         }
       }
     ]
+  },
+  {
+    "level": 25,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 26,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 27,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 28,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 3,
+          "y": 3
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 3,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 29,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 30,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 3,
+          "y": 3
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
+    ]
+  },
+  {
+    "level": 31,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
+    ]
+  },
+  {
+    "level": 32,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 3,
+          "y": 3
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 33,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 3,
+          "y": 3
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
+    ]
+  },
+  {
+    "level": 34,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 1,
+          "y": 3
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 3,
+          "y": 0
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
+    ]
+  },
+  {
+    "level": 35,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 36,
+    "difficulty": "EXPERT",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "RIGHT",
+        "position": {
+          "x": 0,
+          "y": 3
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    ]
   }
 ]

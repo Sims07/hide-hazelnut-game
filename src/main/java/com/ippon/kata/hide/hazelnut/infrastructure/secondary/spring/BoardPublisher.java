@@ -1,6 +1,6 @@
 package com.ippon.kata.hide.hazelnut.infrastructure.secondary.spring;
 
-import com.ippon.kata.hide.hazelnut.application.BoardChangedEvent;
+import com.ippon.kata.hide.hazelnut.application.domain.BoardChangedEvent;
 import com.ippon.kata.hide.hazelnut.infrastructure.secondary.spring.model.BoardChangedEventDTO;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

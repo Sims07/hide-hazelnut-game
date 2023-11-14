@@ -99,8 +99,8 @@ public class BoardRenderer extends AbstractRenderer<Board> {
 
     drawPetals(
         graphicsContext,
-        upperLeft(x, (double) BLOCK_SIZE),
-        upperLeft(y, (double) BLOCK_SIZE),
+        upperLeft(x, BLOCK_SIZE),
+        upperLeft(y, BLOCK_SIZE),
         toColor(flower.color()));
     drawCircle(
         graphicsContext,

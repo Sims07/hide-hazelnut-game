@@ -1,6 +1,6 @@
 package com.ippon.kata.hide.hazelnut;
 
-import com.ippon.kata.hide.hazelnut.application.BoardChangedEvent;
+import com.ippon.kata.hide.hazelnut.application.domain.BoardChangedEvent;
 import com.ippon.kata.hide.hazelnut.application.domain.BoardLevels;
 import com.ippon.kata.hide.hazelnut.application.domain.EventPublisher;
 import com.ippon.kata.hide.hazelnut.application.domain.ListBoardLevels;
