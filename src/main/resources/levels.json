@@ -359,5 +359,35 @@
         }
       }
     ]
+  },
+  {
+    "level": 13,
+    "difficulty": "JUNIOR",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      }
+    ]
   }
 ]

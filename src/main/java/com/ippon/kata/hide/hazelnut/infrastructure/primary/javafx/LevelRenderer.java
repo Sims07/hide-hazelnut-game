@@ -54,23 +54,20 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
     graphicsContext.fillText(
         "" + (int) level,
         x + LEVEL_WIDTH / TEXT_WIDTH_DIVISION + PADDING - 5,
-        y + LEVEL_WIDTH / LevelRenderer.TEXT_WIDTH_Y_DIVISION + PADDING);
+        y + LEVEL_WIDTH / LevelRenderer.TEXT_WIDTH_Y_DIVISION + PADDING - 5);
     graphicsContext.restore();
   }
 
   record LevelColor(Paint backgroundColor, Paint fontColor) {}
 
   private LevelColor levelColor(int levelToUse, boolean highLight) {
-    if (highLight) {
-      return new LevelColor(Color.LIGHTCORAL, Color.WHITE);
+    if (levelToUse >= 0 && levelToUse < 12) {
+      return new LevelColor(highLight ? Color.GREEN : STARTER_BG_COLOR, Color.WHITE);
     }
-    if (levelToUse >= 0 && levelToUse < 13) {
-      return new LevelColor(STARTER_BG_COLOR, Color.WHITE);
+    if (levelToUse >= 12 && levelToUse < 26) {
+      return new LevelColor(highLight ? Color.CORAL : Color.ORANGE, Color.WHITE);
     }
-    if (levelToUse >= 13 && levelToUse < 26) {
-      return new LevelColor(Color.ORANGE, Color.WHITE);
-    }
-    return new LevelColor(Color.GREENYELLOW, Color.WHITE);
+    return new LevelColor(Color.GREENYELLOW, highLight ? Color.BLACK : Color.WHITE);
   }
 
   public int onMouseClicked(MouseEvent mouseEvent) {
