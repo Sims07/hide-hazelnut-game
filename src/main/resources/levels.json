@@ -299,5 +299,65 @@
         }
       }
     ]
+  },
+  {
+    "level": 11,
+    "difficulty": "STARTER",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      }
+    ]
+  },
+  {
+    "level": 12,
+    "difficulty": "STARTER",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      }
+    ]
   }
 ]
