@@ -46,6 +46,7 @@ public class HideHazelnutGame extends Application {
   private LevelRenderer levelRenderer;
   private Board board;
   private int currentLevel = 1;
+  private List<BoardLevel> boardLevels;
 
   public HideHazelnutGame() {
     canvas = new Canvas(HALF * WIDTH * BLOCK_SIZE, (double) HEIGHT * BLOCK_SIZE);
@@ -74,12 +75,13 @@ public class HideHazelnutGame extends Application {
   }
 
   private void initLevels(GraphicsContext graphicsContext) {
-    List<BoardLevel> boardLevels = gameAPI.listGameLevels();
+    this.boardLevels = gameAPI.listGameLevels();
     levelRenderer.render(graphicsContext, boardLevels);
   }
 
   private void startLevel() {
     gameAPI.startLevel(currentLevel);
+    levelRenderer.render(canvas.getGraphicsContext2D(), boardLevels);
     levelRenderer.renderLevel(canvas.getGraphicsContext2D(), currentLevel);
   }
 
