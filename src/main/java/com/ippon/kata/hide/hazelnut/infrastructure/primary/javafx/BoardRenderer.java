@@ -228,9 +228,13 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     final Position minX = minX(squirrel);
     final Position minY = minY(squirrel);
     switch (squirrel.orientation()) {
-      case UP, LEFT -> {
+      case LEFT -> {
         drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minX.y());
         drawVerticalSquirrel(graphicsContext, minX.x() + 1, minX.y() - 1);
+      }
+      case UP -> {
+        drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minX.y() + 1);
+        drawVerticalSquirrel(graphicsContext, minX.x(), minX.y());
       }
       case DOWN -> {
         drawBottomHorizontalSquirrel(graphicsContext, minX.x(), minX.y());

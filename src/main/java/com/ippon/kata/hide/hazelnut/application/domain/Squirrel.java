@@ -39,7 +39,7 @@ public record Squirrel(
       case UP -> List.of(
           new PieceParcel(new Position(0, 0), ParcelType.HAZELNUT_SLOT),
           new PieceParcel(new Position(0, 1), ParcelType.SQUIRREL),
-          new PieceParcel(new Position(1, 0), ParcelType.FLOWER));
+          new PieceParcel(new Position(1, 1), ParcelType.FLOWER));
       case LEFT -> List.of(
           new PieceParcel(new Position(1, 0), ParcelType.FLOWER),
           new PieceParcel(new Position(0, 1), ParcelType.HAZELNUT_SLOT),
