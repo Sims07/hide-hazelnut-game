@@ -269,5 +269,35 @@
         }
       }
     ]
+  },
+  {
+    "level": 10,
+    "difficulty": "STARTER",
+    "configuration": [
+      {
+        "type": "FLOWER",
+        "orientation": "NONE",
+        "position": {
+          "x": 3,
+          "y": 3
+        }
+      },
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      }
+    ]
   }
 ]
