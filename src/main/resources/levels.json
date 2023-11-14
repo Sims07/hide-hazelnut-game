@@ -1231,5 +1231,43 @@
         }
       }
     ]
+  },
+  {
+    "level": 37,
+    "difficulty": "MASTER",
+    "configuration": [
+      {
+        "type": "YELLOW_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 0
+        }
+      },
+      {
+        "type": "ORANGE_SQUIRREL",
+        "orientation": "DOWN",
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      {
+        "type": "GREY_SQUIRREL",
+        "orientation": "UP",
+        "position": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      {
+        "type": "BLACK_SQUIRREL",
+        "orientation": "LEFT",
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      }
+    ]
   }
 ]

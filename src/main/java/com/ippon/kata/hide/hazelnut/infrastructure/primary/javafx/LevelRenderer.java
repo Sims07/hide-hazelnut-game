@@ -70,7 +70,14 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
     if (expertLevel(levelToUse)) {
       return new LevelColor(highLight ? Color.CORAL : Color.RED, Color.WHITE);
     }
+    if (masterLevel(levelToUse)) {
+      return new LevelColor(highLight ? Color.CORAL : Color.PURPLE, Color.WHITE);
+    }
     return new LevelColor(Color.GREENYELLOW, highLight ? Color.BLACK : Color.WHITE);
+  }
+
+  private boolean masterLevel(int levelToUse) {
+    return levelToUse >= 37 && levelToUse < 50;
   }
 
   private static boolean expertLevel(int levelToUse) {
