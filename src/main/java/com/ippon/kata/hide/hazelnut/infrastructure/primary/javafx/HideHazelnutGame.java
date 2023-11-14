@@ -32,7 +32,7 @@ public class HideHazelnutGame extends Application {
   private static final int BLOCK_SIZE = 180;
   public static final String TITLE = "Hide Hazelnut";
   public static final int FONT_SIZE = 25;
-  public static final double HALF = 1.5;
+  public static final double SCREEN_SIZE_PROPORTION_TO_BOARD = 1.6;
   public static final double VOLUME = 0.1;
   private ConfigurableApplicationContext applicationContext;
   private GameAPI gameAPI;
@@ -49,7 +49,9 @@ public class HideHazelnutGame extends Application {
   private List<BoardLevel> boardLevels;
 
   public HideHazelnutGame() {
-    canvas = new Canvas(HALF * WIDTH * BLOCK_SIZE, (double) HEIGHT * BLOCK_SIZE);
+    canvas =
+        new Canvas(
+            SCREEN_SIZE_PROPORTION_TO_BOARD * WIDTH * BLOCK_SIZE, (double) HEIGHT * BLOCK_SIZE);
   }
 
   @Override

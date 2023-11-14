@@ -1,6 +1,5 @@
 package com.ippon.kata.hide.hazelnut.infrastructure.primary.javafx;
 
-
 import com.ippon.kata.hide.hazelnut.application.domain.BoardLevel;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +19,7 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
   private record PositionOnScreen(double x, double y) {}
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LevelRenderer.class);
-  public static final int LEVEL_BY_LINES = 5;
+  public static final int LEVEL_BY_LINES = 6;
   public static final Map<PositionOnScreen, Integer> positionLevelMap = new HashMap<>();
   public static final int LEVEL_PERCENTAGE_WIDTH = 3;
   public static final int LEVEL_WIDTH = BLOCK_SIZE / LEVEL_PERCENTAGE_WIDTH;
@@ -54,22 +53,21 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
     graphicsContext.setFill(levelColor.fontColor());
     graphicsContext.fillText(
         "" + (int) level,
-        x + LEVEL_WIDTH / TEXT_WIDTH_DIVISION + PADDING -5,
+        x + LEVEL_WIDTH / TEXT_WIDTH_DIVISION + PADDING - 5,
         y + LEVEL_WIDTH / LevelRenderer.TEXT_WIDTH_Y_DIVISION + PADDING);
     graphicsContext.restore();
   }
 
-  record LevelColor(Paint backgroundColor, Paint fontColor) {
+  record LevelColor(Paint backgroundColor, Paint fontColor) {}
 
-  }
   private LevelColor levelColor(int levelToUse, boolean highLight) {
-    if(highLight){
-     return  new LevelColor(Color.LIGHTCORAL, Color.WHITE);
+    if (highLight) {
+      return new LevelColor(Color.LIGHTCORAL, Color.WHITE);
     }
-    if(levelToUse >= 0 && levelToUse < 13){
+    if (levelToUse >= 0 && levelToUse < 13) {
       return new LevelColor(STARTER_BG_COLOR, Color.WHITE);
     }
-    if(levelToUse >=13 && levelToUse < 26){
+    if (levelToUse >= 13 && levelToUse < 26) {
       return new LevelColor(Color.ORANGE, Color.WHITE);
     }
     return new LevelColor(Color.GREENYELLOW, Color.WHITE);
@@ -87,7 +85,6 @@ public class LevelRenderer extends AbstractRenderer<List<BoardLevel>> {
         });
     return levelClicked.get();
   }
-
 
   public void renderLevel(GraphicsContext graphicsContext, int level) {
     renderHighLightLevel(graphicsContext, level);
