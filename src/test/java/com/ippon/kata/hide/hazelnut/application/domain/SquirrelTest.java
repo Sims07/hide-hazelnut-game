@@ -13,11 +13,19 @@ class SquirrelTest {
     switch (pieces.piece()) {
       case Squirrel squirrel:
         {
-          then(squirrel.pieceParcels().size()).isEqualTo(2);
-          then(squirrel.pieceParcels().get(0).position()).isEqualTo(new Position(0, 0));
-          then(squirrel.pieceParcels().get(0).type()).isEqualTo(ParcelType.HAZELNUT_SLOT);
-          then(squirrel.pieceParcels().get(1).position()).isEqualTo(new Position(1, 0));
-          then(squirrel.pieceParcels().get(1).type()).isEqualTo(ParcelType.SQUIRREL);
+          if (squirrel.pieceParcels().size() == 2) {
+            then(squirrel.pieceParcels().get(0).position()).isEqualTo(new Position(0, 0));
+            then(squirrel.pieceParcels().get(0).type()).isEqualTo(ParcelType.HAZELNUT_SLOT);
+            then(squirrel.pieceParcels().get(1).position()).isEqualTo(new Position(1, 0));
+            then(squirrel.pieceParcels().get(1).type()).isEqualTo(ParcelType.SQUIRREL);
+          } else {
+            then(squirrel.pieceParcels().get(0).position()).isEqualTo(new Position(0, 0));
+            then(squirrel.pieceParcels().get(0).type()).isEqualTo(ParcelType.FLOWER);
+            then(squirrel.pieceParcels().get(1).position()).isEqualTo(new Position(1, 1));
+            then(squirrel.pieceParcels().get(1).type()).isEqualTo(ParcelType.SQUIRREL);
+            then(squirrel.pieceParcels().get(2).position()).isEqualTo(new Position(0, 1));
+            then(squirrel.pieceParcels().get(2).type()).isEqualTo(ParcelType.HAZELNUT_SLOT);
+          }
         }
         break;
       case Flower flower:

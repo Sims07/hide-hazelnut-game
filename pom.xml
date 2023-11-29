@@ -11,12 +11,13 @@
   <groupId>com.simon.chareyron</groupId>
   <artifactId>hide-hazelnut</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>tetris</name>
+  <name>hide-hazelnut</name>
   <description>Demo project for Spring Boot</description>
   <properties>
     <java.version>21</java.version>
-    <javafx-controls.version>22-ea+11</javafx-controls.version>
+    <javafx-controls.version>22-ea+16</javafx-controls.version>
     <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
+    <gson.version>2.10.1</gson.version>
   </properties>
   <repositories>
     <repository>
@@ -34,7 +35,7 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.10.1</version>
+      <version>${gson.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
@@ -75,6 +76,13 @@
           <source>21</source>
           <target>21</target>
           <compilerArgs>--enable-preview</compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>--enable-preview</argLine>
         </configuration>
       </plugin>
     </plugins>
