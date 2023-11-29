@@ -5,6 +5,7 @@ import com.ippon.kata.hide.hazelnut.application.domain.BoardLevels;
 import com.ippon.kata.hide.hazelnut.application.domain.EventPublisher;
 import com.ippon.kata.hide.hazelnut.application.domain.ListBoardLevels;
 import com.ippon.kata.hide.hazelnut.application.domain.MoveSquirrel;
+import com.ippon.kata.hide.hazelnut.application.domain.SelectSquirrel;
 import com.ippon.kata.hide.hazelnut.application.domain.StartLevel;
 import com.ippon.kata.hide.hazelnut.application.usecase.ListBoardLevelsUseCase;
 import com.ippon.kata.hide.hazelnut.application.usecase.MoveSquirrelUseCase;
@@ -37,5 +38,10 @@ public class Config {
   @Bean
   MoveSquirrelUseCase moveSquirrelUseCase(EventPublisher<BoardChangedEvent> boardPublisher) {
     return new MoveSquirrel(boardPublisher);
+  }
+
+  @Bean
+  SelectSquirrel selectSquirrel(EventPublisher<BoardChangedEvent> boardPublisher) {
+    return new SelectSquirrel(boardPublisher);
   }
 }

@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 public class BoardRenderer extends AbstractRenderer<Board> {
 
   public static final int ARC_WIDTH = 50;
-  public static final Color PICE_GREEN_COLOR = Color.rgb(184, 204, 52);
+  public static final Color PIECE_GREEN_COLOR = Color.rgb(184, 204, 52);
   public static final Color FLOWER_RED_COLOR = Color.rgb(250, 139, 118);
   public static final Color HAZELNUT_STROKE_COLOR = Color.rgb(150, 95, 28);
   public static final Color HAZELNUT_FILL_COLOR = Color.rgb(250, 179, 84);
@@ -26,10 +26,12 @@ public class BoardRenderer extends AbstractRenderer<Board> {
   public static final Color EMPTY_BOARD_COLOR = Color.rgb(190, 144, 104);
   public static final int HAZELNUT_INTERNAL_LINE_WIDTH = 10;
 
-  @Override
-  public void render(GraphicsContext graphicsContext, Board board) {
+  public void render(
+      GraphicsContext graphicsContext,
+      Board board,
+      com.ippon.kata.hide.hazelnut.application.domain.Color selectedSquirrel) {
     renderEmptyBoard(graphicsContext, board);
-    renderPieces(graphicsContext, board);
+    renderPieces(graphicsContext, board, selectedSquirrel);
     renderHazelnut(graphicsContext, board);
   }
 
@@ -50,7 +52,10 @@ public class BoardRenderer extends AbstractRenderer<Board> {
             });
   }
 
-  private void renderPieces(GraphicsContext graphicsContext, Board board) {
+  private void renderPieces(
+      GraphicsContext graphicsContext,
+      Board board,
+      com.ippon.kata.hide.hazelnut.application.domain.Color selectedSquirrelColor) {
     Arrays.stream(com.ippon.kata.hide.hazelnut.application.domain.Color.values())
         .map(board::piece)
         .filter(Optional::isPresent)
@@ -60,18 +65,27 @@ public class BoardRenderer extends AbstractRenderer<Board> {
               switch (piece) {
                 case Squirrel squirrel:
                   {
-                    renderSquirrel(graphicsContext, squirrel);
+                    renderSquirrel(
+                        graphicsContext,
+                        squirrel,
+                        isSquirrelSelected(selectedSquirrelColor, squirrel));
                   }
                   break;
                 case Flower flower:
                   {
-                    renderFlower(graphicsContext, flower);
+                    renderFlower(graphicsContext, flower, false);
                   }
                   break;
                 default:
                   throw new IllegalStateException("Unexpected value: " + piece);
               }
             });
+  }
+
+  private static boolean isSquirrelSelected(
+      com.ippon.kata.hide.hazelnut.application.domain.Color selectedSquirrelColor,
+      Squirrel squirrel) {
+    return squirrel.color() == selectedSquirrelColor;
   }
 
   private static void renderEmptyBoard(GraphicsContext graphicsContext, Board board) {
@@ -83,10 +97,11 @@ public class BoardRenderer extends AbstractRenderer<Board> {
                     graphicsContext, EMPTY_BOARD_COLOR, slot, position.x(), position.y()));
   }
 
-  public static void renderFlower(GraphicsContext graphicsContext, Flower flower) {
+  public static void renderFlower(
+      GraphicsContext graphicsContext, Flower flower, boolean selected) {
     double x = flower.pieceParcels().get(0).position().x();
     double y = flower.pieceParcels().get(0).position().y();
-    graphicsContext.setFill(PICE_GREEN_COLOR);
+    contourFillColor(graphicsContext, selected);
     graphicsContext.fillRoundRect(
         x * BLOCK_SIZE + 2,
         y * BLOCK_SIZE + 2,
@@ -168,26 +183,32 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     }
   }
 
-  private void renderSquirrel(GraphicsContext graphicsContext, Squirrel squirrel) {
+  private void renderSquirrel(
+      GraphicsContext graphicsContext, Squirrel squirrel, boolean selected) {
     if (squirrelSizeTwo(squirrel)) {
-      drawContourSquirrel(graphicsContext, squirrel);
+      drawContourSquirrel(graphicsContext, squirrel, selected);
       squirrel
           .pieceParcels()
-          .forEach(parcel -> drawParcelDetail(graphicsContext, parcel, squirrel));
+          .forEach(parcel -> drawParcelDetail(graphicsContext, parcel, squirrel, selected));
     } else {
-      drawContourLSquirrel(graphicsContext, squirrel);
+      drawContourLSquirrel(graphicsContext, squirrel, selected);
       squirrel
           .pieceParcels()
-          .forEach(parcel -> drawParcelDetail(graphicsContext, parcel, squirrel));
+          .forEach(parcel -> drawParcelDetail(graphicsContext, parcel, squirrel, selected));
     }
   }
 
-  private void drawContourLSquirrel(GraphicsContext graphicsContext, Squirrel squirrel) {
-    graphicsContext.setFill(PICE_GREEN_COLOR);
+  private void drawContourLSquirrel(
+      GraphicsContext graphicsContext, Squirrel squirrel, boolean selected) {
+    contourFillColor(graphicsContext, selected);
     switch (squirrel.color()) {
       case BLACK -> drawContourBlackL(graphicsContext, squirrel);
       case YELLOW -> drawContourYellowL(graphicsContext, squirrel);
     }
+  }
+
+  private static void contourFillColor(GraphicsContext graphicsContext, boolean selected) {
+    graphicsContext.setFill(selected ? Color.AQUAMARINE : PIECE_GREEN_COLOR);
   }
 
   private static Position minY(Squirrel squirrel) {
@@ -261,16 +282,17 @@ public class BoardRenderer extends AbstractRenderer<Board> {
   }
 
   private void drawParcelDetail(
-      GraphicsContext graphicsContext, PieceParcel parcel, Squirrel squirrel) {
+      GraphicsContext graphicsContext, PieceParcel parcel, Squirrel squirrel, boolean selected) {
     switch (parcel.type()) {
       case HAZELNUT_SLOT -> drawHazelnutParcel(graphicsContext, parcel.position(), squirrel);
       case SQUIRREL -> drawSquirrel(graphicsContext, parcel.position(), squirrel);
-      case FLOWER -> drawFlower(graphicsContext, parcel, squirrel);
+      case FLOWER -> drawFlower(graphicsContext, parcel, squirrel, selected);
     }
   }
 
-  private void drawFlower(GraphicsContext graphicsContext, PieceParcel parcel, Squirrel squirrel) {
-    renderFlower(graphicsContext, new Flower(squirrel.color(), List.of(parcel)));
+  private void drawFlower(
+      GraphicsContext graphicsContext, PieceParcel parcel, Squirrel squirrel, boolean selected) {
+    renderFlower(graphicsContext, new Flower(squirrel.color(), List.of(parcel)), selected);
   }
 
   private void drawSquirrel(GraphicsContext graphicsContext, Position position, Squirrel squirrel) {
@@ -303,7 +325,8 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     }
   }
 
-  private static void drawContourSquirrel(GraphicsContext graphicsContext, Squirrel squirrel) {
+  private static void drawContourSquirrel(
+      GraphicsContext graphicsContext, Squirrel squirrel, boolean selected) {
     int minX =
         squirrel.pieceParcels().stream()
             .map(PieceParcel::position)
@@ -322,7 +345,7 @@ public class BoardRenderer extends AbstractRenderer<Board> {
             .map(Position::y)
             .min(Integer::compareTo)
             .orElseThrow();
-    graphicsContext.setFill(PICE_GREEN_COLOR);
+    contourFillColor(graphicsContext, selected);
     if (horizontal(maxX, minX)) {
       final int width = BLOCK_SIZE * 2;
       drawPiece(graphicsContext, minX, minY, width, BLOCK_SIZE);
@@ -384,4 +407,7 @@ public class BoardRenderer extends AbstractRenderer<Board> {
     graphicsContext.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
     graphicsContext.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
   }
+
+  @Override
+  public void render(GraphicsContext graphicsContext, Board event) {}
 }

@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public record Board(Map<Position, Slot> slotPositions) {
+public record Board(Map<Position, Slot> slotPositions, Color selectedSquirrelColor) {
   private static final Logger LOGGER = LoggerFactory.getLogger(Board.class);
   public static final int BOARD_SIZE = 4;
 
@@ -24,7 +24,7 @@ public record Board(Map<Position, Slot> slotPositions) {
         values.put(position, new Slot(Optional.empty(), position, false));
       }
     }
-    return new Board(values);
+    return new Board(values, null);
   }
 
   public Slot slot(Position position) {
@@ -60,7 +60,7 @@ public record Board(Map<Position, Slot> slotPositions) {
           ."Squirrel is already at this slot \{ updatedPiece }" + updatedPiece);
     }
 
-    return new Board(updatedSlotPositions);
+    return new Board(updatedSlotPositions, null);
   }
 
   private boolean availableSlots(Piece piece) {
@@ -115,7 +115,7 @@ public record Board(Map<Position, Slot> slotPositions) {
                       parcel.position(),
                       updatedSlotPositions.get(parcel.position()).hazelnutInTheHole()));
             });
-    return new Board(updatedSlotPositions);
+    return new Board(updatedSlotPositions, selectedSquirrelColor);
   }
 
   private Board addPieceAtPosition(Squirrel squirrel) {
@@ -125,7 +125,7 @@ public record Board(Map<Position, Slot> slotPositions) {
     } else {
       updatedSlotPositions = moveSquirrel(squirrel, updatedSlotPositions);
     }
-    return new Board(updatedSlotPositions);
+    return new Board(updatedSlotPositions, selectedSquirrelColor);
   }
 
   private static Optional<PieceParcel> isHazelnutReleasable(
@@ -207,5 +207,9 @@ public record Board(Map<Position, Slot> slotPositions) {
             .map(Squirrel.class::cast)
             .map(Squirrel::hasHazelnut);
     return squirels.reduce(true, (acc, hasHazelnut) -> acc && !hasHazelnut);
+  }
+
+  public Board selectSquirrel(Color squirrelColorSelected) {
+    return new Board(slotPositions, selectedSquirrelColor);
   }
 }

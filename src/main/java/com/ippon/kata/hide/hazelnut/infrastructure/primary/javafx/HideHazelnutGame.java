@@ -140,12 +140,13 @@ public class HideHazelnutGame extends Application {
   }
 
   private void selectSquirrelPiece(Color color) {
+    this.gameAPI.selectSquirrel(board, color);
     this.currentSquirrelColor = color;
   }
 
   private void renderBoard(GraphicsContext graphicsContext, BoardChangedEventDTO event) {
     this.board = event.board();
-    boardRenderer.render(graphicsContext, event.board());
+    boardRenderer.render(graphicsContext, event.board(), currentSquirrelColor);
     if (this.board.allSquirrelHasReleasedTheirHazelnuts()) {
       winGameRenderer.render(graphicsContext, event);
       this.currentLevel++;
