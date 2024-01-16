@@ -22,7 +22,7 @@ Supporting domain responsible for computing the tetris score.
 ### Note
 
 It's interesting to notice that tetromino model is different between the bounded contexts.
-The executing context will need positions but not the preparing context which needs only the shape.
+The executing context will need coordinates but not the preparing context which needs only the shape.
 The shared model is explicitly put in the shared directory.
 
 # Flow Modeling Diagram
